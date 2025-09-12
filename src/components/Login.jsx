@@ -1,9 +1,10 @@
+import axios from "axios";
 import React, { useState } from "react";
 
 function LoginForm() {
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    emailId: "dheeraj1234@gmail.com",
+    password: "Mukesh@123",
   });
 
   const handleChange = (e) => {
@@ -14,11 +15,28 @@ function LoginForm() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login Data:", formData);
-    // 👉 here you can call your API
-    // axios.post("/api/login", formData)
+    try {
+      const res = await axios.post(
+        "http://localhost:7777/api/auth/login",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      console.log("✅ Login success:", res.data);
+      alert("Login successful!");
+    } catch (error) {
+      console.error(
+        "❌ Login error:",
+        error.response?.data || error.message
+      );
+      alert(error.response?.data?.message || "Login failed!");
+    }
   };
 
   return (
@@ -31,9 +49,9 @@ function LoginForm() {
 
         <input
           type="email"
-          name="email"
+          name="emailId" // 👈 changed from email → emailId
           placeholder="Enter your email"
-          value={formData.email}
+          value={formData.emailId}
           onChange={handleChange}
           required
           className="w-full p-2 mb-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
