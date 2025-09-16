@@ -1,11 +1,19 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, {  useState } from "react";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/slice/userSlice";
+import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../constants/constants";
 
 function LoginForm() {
   const [formData, setFormData] = useState({
-    emailId: "dheeraj1234@gmail.com",
+    emailId: "dheeraj123@gmail.com",
     password: "Mukesh@123",
   });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,7 +27,7 @@ function LoginForm() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:7777/api/auth/login",
+        `${API_BASE_URL}/api/auth/login`,
         formData,
         {
           headers: {
@@ -28,8 +36,9 @@ function LoginForm() {
           withCredentials: true,
         }
       );
-      console.log("✅ Login success:", res.data);
-      alert("Login successful!");
+      dispatch(setUser(res.data));
+      navigate("/");
+
     } catch (error) {
       console.error(
         "❌ Login error:",
