@@ -1,10 +1,22 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../constants/constants';
+import axios from 'axios';
 
 const NavBar = () => {
     const user = useSelector((state) => state.user.user);
+    const navigate = useNavigate();
     console.log("user in nav", user);
+    const handleLogout = async () => {
+        try {
+            await axios.post(`${API_BASE_URL}/api/auth/logout`, {}, { withCredentials: true });
+            navigate('/login');
+        } catch (error) {
+            console.error("❌ Logout error:", error.response?.data || error.message);
+        }
+    };
+
     return (
         <div className="navbar bg-base-100 shadow-sm">
             <div className="flex-1">
@@ -30,7 +42,7 @@ const NavBar = () => {
                             </Link>
                         </li>
                         <li><a>Settings</a></li>
-                        <li><a>Logout</a></li>
+                        <li onClick={handleLogout}><a >Logout</a></li>
                     </ul>
                 </div>
             </div>}
