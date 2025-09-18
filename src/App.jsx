@@ -4,6 +4,7 @@ import Body from './components/Body'
 import LoginForm from './components/Login'
 import { Provider } from 'react-redux'
 import { store } from './redux/store'
+import Feed from './components/Feed'
 
 const App = () => {
   return (
@@ -13,7 +14,7 @@ const App = () => {
           <Route path='/' element={<Body />} >
             <Route path='login' element={<LoginForm />
             } />
-            <Route path='/' element={<div>Feed page</div>} />
+            <Route path='/' element={<Feed />} />
             <Route path='profile' element={<div>profile page</div>} />
           </Route>
 
