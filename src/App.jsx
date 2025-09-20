@@ -17,7 +17,6 @@ const App = () => {
             <Route path='/' element={<Feed />} />
             <Route path='profile' element={<div>profile page</div>} />
           </Route>
-
         </Routes>
       </Router >
       {/* <NavBar /> */}
